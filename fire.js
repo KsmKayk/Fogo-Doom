@@ -1,6 +1,10 @@
+// todos os pixels ↓
 const firePixelsArray = [];
+// largura de pixels ↓
 const fireWidth = 50;
+// altura de pixels ↓
 const fireHeigth = 50;
+// todas as 36 cores em RGB ↓
 const fireColorsPalette = [
   { r: 7, g: 7, b: 7 },
   { r: 31, g: 7, b: 7 },
@@ -40,15 +44,16 @@ const fireColorsPalette = [
   { r: 239, g: 239, b: 199 },
   { r: 255, g: 255, b: 255 }
 ];
-
+// função para iniciar o fogo ↓
 function start() {
   createFireDataStructure();
   createFireSource();
   renderFire();
-
+  // intervalo entre uma atualização e outra de pixel ↓
   setInterval(calculateFirePropagation, 50);
 }
 
+// função para criar a estrutura de pixels do fogo ↓
 function createFireDataStructure() {
   const numberOfPixels = fireWidth * fireHeigth;
 
@@ -57,6 +62,7 @@ function createFireDataStructure() {
   }
 }
 
+// calculo de propagação do fogo ↓
 function calculateFirePropagation() {
   for (let column = 0; column < fireWidth; column++) {
     for (let row = 0; row < fireHeigth; row++) {
@@ -69,13 +75,14 @@ function calculateFirePropagation() {
   renderFire();
 }
 
+// update de intensidade do fogo por pixel baseado no pixel a baixo ↓
 function updateFireIntensityPerPixel(currentPixelIndex) {
   const belowPixelIndex = currentPixelIndex + fireWidth;
 
   if (belowPixelIndex >= fireWidth * fireHeigth) {
     return;
   }
-
+  // decaimento do fogo ↓
   const decay = Math.floor(Math.random() * 3);
   const belowPixelFireIntensity = firePixelsArray[belowPixelIndex];
   const newFireIntensity =
@@ -84,6 +91,7 @@ function updateFireIntensityPerPixel(currentPixelIndex) {
   firePixelsArray[currentPixelIndex - decay] = newFireIntensity;
 }
 
+// renderização do fogo ↓
 function renderFire() {
   const debug = false;
   let html = "<table cellpadding=0 cellspacing=0>";
@@ -115,7 +123,7 @@ function renderFire() {
 
   document.querySelector("#fireCanvas").innerHTML = html;
 }
-
+// criação do fogo ↓
 function createFireSource() {
   for (let column = 0; column <= fireWidth; column++) {
     const overflowPixelIndex = fireWidth * fireHeigth;
@@ -124,5 +132,5 @@ function createFireSource() {
     firePixelsArray[pixelIndex] = 36;
   }
 }
-
+// chamado da função para iniciar ↓
 start();
